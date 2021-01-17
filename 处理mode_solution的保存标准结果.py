@@ -90,10 +90,10 @@ if __name__ == '__main__':
 
     file_list=['data-01.txt']
     file_read = file_list[0]
-    jingdu_preset = 51 # 自己设置的精度，要修改
+    jingdu_preset = 51
     file_write = file_read.replace('.txt','delete_header.txt')
     numpy_saveplace = file_read.replace('.txt','.npy')
-    mode_number= 3 # 自己保留的模式数量
+    mode_number= 3
 
     myfile = open(file_read, mode='r', encoding='utf-8')
     # print(myfile)
@@ -107,6 +107,16 @@ if __name__ == '__main__':
     save_txt_to_numpy(txt_file=file_write,numpy_file=numpy_saveplace,mode_number=mode_number,
                       jingdu_prest=jingdu_preset)
     print('save_toNpy SUCCESS')
+
+    # resize模式的数据
+    file = numpy_saveplace
+    a = np.load(file)
+    file_resize_place = file.replace('.npy','_resize.npy')
+    mode_number, fengliang, jingdu, jingdu01 = a.shape
+    a_resize = np.reshape(a, (mode_number, fengliang, jingdu ** 2))
+    np.save(file_resize_place, a_resize)
+
+
     # 保存到mat文件里面
     file_npy = numpy_saveplace
     matfile= numpy_saveplace.replace('.npy','_mat.mat')
